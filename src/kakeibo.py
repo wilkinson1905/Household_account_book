@@ -11,6 +11,7 @@ import os
 import codecs
 import argparse
 import dash_bootstrap_components as dbc
+from dash import dash_table
 
 parser = argparse.ArgumentParser() # 1.インスタンスの作成
 parser.add_argument('--debug', action="store_true") # 2.必要なオプションを追加
@@ -83,6 +84,17 @@ def serve_layout():
                 size=20,
             )
         )
+        #表を追加
+        table = dash_table.DataTable(
+            columns=[{"name": i, "id": i} 
+                    for i in df.columns],
+            data=df.to_dict('records'),
+            style_cell=dict(textAlign='left'),
+            style_header=dict(backgroundColor="paleturquoise"),
+            style_data=dict(backgroundColor="lavender"),
+            filter_action = 'native',
+            sort_action='native'
+        )
         ## 円グラフをタブに追加
         graph = dbc.Row(
             [
@@ -90,7 +102,15 @@ def serve_layout():
             ],
             justify="center",
         )
-        tab = dcc.Tab(label=kakeibo_csv.stem, children=[graph])
+        table_row = dbc.Row(
+            [
+                dbc.Col(table, lg=6, md=12)
+            ],
+            justify="center",
+        )
+
+
+        tab = dcc.Tab(label=kakeibo_csv.stem, children=[graph, table_row])
         children.append(tab)
         ## 折れ線グラフ用にデータの追加
         df["月"] = kakeibo_csv.stem
