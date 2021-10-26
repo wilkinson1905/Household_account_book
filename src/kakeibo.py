@@ -98,13 +98,13 @@ def serve_layout():
         ## 円グラフをタブに追加
         graph = dbc.Row(
             [
-                dbc.Col(dcc.Graph(figure=fig), lg=6, md=12),
+                dbc.Col(dcc.Graph(figure=fig), lg=6, md=10),
             ],
             justify="center",
         )
         table_row = dbc.Row(
             [
-                dbc.Col(table, lg=6, md=12)
+                dbc.Col(table, lg=6, md=10, sm=10, xs=10)
             ],
             justify="center",
         )
